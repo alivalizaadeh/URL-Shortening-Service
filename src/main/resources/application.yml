@@ -1,0 +1,12 @@
+server:
+  port: 8080
+
+spring:
+  application:
+    name: URL-Shortening-Service
+
+  data:
+    mongodb:
+      database: USS
+      port: 27017
+      host: localhost
