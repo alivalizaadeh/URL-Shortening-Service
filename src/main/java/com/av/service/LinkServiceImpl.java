@@ -9,7 +9,6 @@ import org.apache.commons.lang3.RandomStringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.util.Date;
 import java.util.Objects;
 import java.util.Optional;
 
@@ -17,15 +16,12 @@ import java.util.Optional;
 public class LinkServiceImpl implements LinkService {
 
     private final LinkRepository linkRepository;
-    private final SequenceGeneratorService sequenceGeneratorService;
     private final LinkMapper linkMapper;
 
     @Autowired
     public LinkServiceImpl(LinkRepository linkRepository,
-                           SequenceGeneratorService sequenceGeneratorService,
                            LinkMapper linkMapper) {
         this.linkRepository = linkRepository;
-        this.sequenceGeneratorService = sequenceGeneratorService;
         this.linkMapper = linkMapper;
     }
 
@@ -44,31 +40,16 @@ public class LinkServiceImpl implements LinkService {
     }
 
     private void increaseAccessCount(Link link) {
-        link.setAccessCount(link.getAccessCount() + 1);
+        Objects.requireNonNull(link.getId());
+        linkRepository.increaseAccessCount(link.getId());
     }
 
     private Link save(Link entity) {
         Objects.requireNonNull(entity, "Entity is null!");
-        boolean generateLink = false;
         if (Objects.isNull(entity.getId())) {
-            Long nextId = sequenceGeneratorService.generateSequence(Link.COLLECTION_NAME);
-            entity.setId(nextId);
-            generateLink = true;
-        } else {
-            Optional<Link> optional = linkRepository.findById(entity.getId());
-            if (optional.isEmpty()) {
-                Long nextId = sequenceGeneratorService.generateSequence(Link.COLLECTION_NAME);
-                entity.setId(nextId);
-                generateLink = true;
-            }
-        }
-        if (generateLink) {
             String key = generateKey();
             entity.setShortCode(key);
-            entity.setCreatedDate(new Date());
         }
-        entity.setUpdatedDate(new Date());
-        increaseAccessCount(entity);
         return linkRepository.save(entity);
     }
 
@@ -102,24 +83,13 @@ public class LinkServiceImpl implements LinkService {
 
     private Link getByShortCode(String shortCode) {
         Optional<Link> optional = linkRepository.getLinkByShortCode(shortCode);
-        optional.ifPresent(this::save);
-        return optional.orElse(null);
-    }
-
-    private Link getByUrl(String url) {
-        Optional<Link> optional = linkRepository.getLinkByUrl(url);
-        optional.ifPresent(this::save);
+        optional.ifPresent(this::increaseAccessCount);
         return optional.orElse(null);
     }
 
     @Override
     public LinkDto getDtoByShortCode(String shortCode) {
         return linkMapper.entityToDto(getByShortCode(shortCode));
-    }
-
-    @Override
-    public LinkDto getDtoByUrl(String url) {
-        return linkMapper.entityToDto(getByUrl(url));
     }
 
     @Override

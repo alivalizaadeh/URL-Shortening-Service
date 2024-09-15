@@ -10,8 +10,6 @@ public interface LinkService {
 
     LinkDto getDtoByShortCode(String shortCode);
 
-    LinkDto getDtoByUrl(String url);
-
     boolean deleteByShortCode(String shortCode);
 
     LinkExtraDto getExtraDtoByShortCode(String shortCode);

@@ -4,9 +4,14 @@ server:
 spring:
   application:
     name: URL-Shortening-Service
+  datasource:
+    url: jdbc:postgresql://localhost:<your-postgresql-port>/<database-name>
+    username: <your-username>
+    password: <your_password>
+    driver-class-name: org.postgresql.Driver
 
-  data:
-    mongodb:
-      database: USS
-      port: 27017
-      host: localhost
+
+  jpa:
+    hibernate:
+      ddl-auto: update
+    show-sql: true
