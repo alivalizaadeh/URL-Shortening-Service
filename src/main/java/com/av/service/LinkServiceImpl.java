@@ -16,7 +16,7 @@ import java.util.Optional;
 @Service
 public class LinkServiceImpl implements LinkService {
 
-    private LinkRepository linkRepository;
+    private final LinkRepository linkRepository;
     private final SequenceGeneratorService sequenceGeneratorService;
     private final LinkMapper linkMapper;
 
@@ -43,9 +43,8 @@ public class LinkServiceImpl implements LinkService {
         return key;
     }
 
-    private Link increaseAccessCount(Link link) {
+    private void increaseAccessCount(Link link) {
         link.setAccessCount(link.getAccessCount() + 1);
-        return link;
     }
 
     private Link save(Link entity) {
@@ -69,6 +68,7 @@ public class LinkServiceImpl implements LinkService {
             entity.setCreatedDate(new Date());
         }
         entity.setUpdatedDate(new Date());
+        increaseAccessCount(entity);
         return linkRepository.save(entity);
     }
 
@@ -101,11 +101,15 @@ public class LinkServiceImpl implements LinkService {
     }
 
     private Link getByShortCode(String shortCode) {
-        return linkRepository.getLinkByShortCode(shortCode).orElse(null);
+        Optional<Link> optional = linkRepository.getLinkByShortCode(shortCode);
+        optional.ifPresent(this::save);
+        return optional.orElse(null);
     }
 
     private Link getByUrl(String url) {
-        return linkRepository.getLinkByUrl(url).orElse(null);
+        Optional<Link> optional = linkRepository.getLinkByUrl(url);
+        optional.ifPresent(this::save);
+        return optional.orElse(null);
     }
 
     @Override

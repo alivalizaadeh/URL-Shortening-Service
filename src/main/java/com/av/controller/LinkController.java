@@ -12,8 +12,8 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.Objects;
 
-@RequestMapping("/shorten")
 @RestController
+@RequestMapping("/shorten")
 public class LinkController {
 
     private final LinkService linkService;
@@ -64,3 +64,4 @@ public class LinkController {
         return ResponseEntity.notFound().build();
     }
 }
+

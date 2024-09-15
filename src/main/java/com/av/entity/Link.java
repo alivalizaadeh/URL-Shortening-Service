@@ -7,6 +7,7 @@ import lombok.Setter;
 import org.springframework.data.annotation.CreatedDate;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.annotation.LastModifiedDate;
+import org.springframework.data.annotation.Version;
 import org.springframework.data.mongodb.core.mapping.Document;
 import org.springframework.data.mongodb.core.mapping.Field;
 import org.springframework.data.mongodb.core.mapping.FieldType;
@@ -24,7 +25,7 @@ public class Link implements Serializable {
 
     @Id
     @NotNull
-    @Field(name = "ID", write = Field.Write.NON_NULL)
+    @Field(name = "id", write = Field.Write.NON_NULL)
     private Long id;
 
     @NotNull
