@@ -37,7 +37,7 @@ from the [roadmap.sh](https://roadmap.sh/)
 2. Configure application.yml file
 
    ``
-   create a database and change <database-name> on
+   Create a database and change <database-name> on
    application.yml to your database name created.
    ``
 
