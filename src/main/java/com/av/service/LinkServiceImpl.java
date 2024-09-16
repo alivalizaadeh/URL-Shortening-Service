@@ -50,6 +50,7 @@ public class LinkServiceImpl implements LinkService {
     private Link save(Link entity) {
         Objects.requireNonNull(entity, "Entity is null!");
         boolean generateLink = false;
+        boolean isUpdated = false;
         if (Objects.isNull(entity.getId())) {
             Long nextId = sequenceGeneratorService.generateSequence(Link.COLLECTION_NAME);
             entity.setId(nextId);
@@ -60,15 +61,21 @@ public class LinkServiceImpl implements LinkService {
                 Long nextId = sequenceGeneratorService.generateSequence(Link.COLLECTION_NAME);
                 entity.setId(nextId);
                 generateLink = true;
+            } else {
+                if (!Objects.equals(optional.get(), entity)) {
+                    isUpdated = true;
+                }
             }
         }
         if (generateLink) {
             String key = generateKey();
             entity.setShortCode(key);
             entity.setCreatedDate(new Date());
+        } else {
+            increaseAccessCount(entity);
+            if (isUpdated)
+                entity.setUpdatedDate(new Date());
         }
-        entity.setUpdatedDate(new Date());
-        increaseAccessCount(entity);
         return linkRepository.save(entity);
     }
 

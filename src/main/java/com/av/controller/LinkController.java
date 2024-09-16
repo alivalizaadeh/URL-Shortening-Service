@@ -24,9 +24,8 @@ public class LinkController {
     }
 
     @PostMapping
-    public ResponseEntity<LinkDto> createNewLink(@RequestBody LinkDto dto) {
-        if (ObjectUtils.isEmpty(dto) ||
-                ObjectUtils.isEmpty(dto.url()))
+    public ResponseEntity<LinkDto> createNewLink(@RequestBody @NotNull LinkDto dto) {
+        if (ObjectUtils.isEmpty(dto.url()))
             return ResponseEntity.badRequest().build();
         return new ResponseEntity<>(linkService.save(dto), HttpStatus.CREATED);
     }
@@ -37,7 +36,10 @@ public class LinkController {
         if (Objects.isNull(dto) ||
                 Objects.isNull(dto.url()))
             return ResponseEntity.badRequest().build();
-        return new ResponseEntity<>(linkService.updateByShortCode(shortCode, dto), HttpStatus.OK);
+        LinkDto result = linkService.updateByShortCode(shortCode, dto);
+        return Objects.nonNull(result) ?
+                ResponseEntity.ok(result) :
+                ResponseEntity.notFound().build();
     }
 
     @GetMapping("/{shortCode}")
