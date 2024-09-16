@@ -5,7 +5,7 @@ spring:
   application:
     name: URL-Shortening-Service
   datasource:
-    url: jdbc:postgresql://localhost:<your-postgresql-port>/<database-name>
+    url: jdbc:postgresql://localhost:<postgresql-port>/<database-name>
     username: <your-username>
     password: <your_password>
     driver-class-name: org.postgresql.Driver
