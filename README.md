@@ -32,7 +32,6 @@ from the [roadmap.sh](https://roadmap.sh/)
     ```bash
     git clone https://github.com/alivlizadeh1/URL-Shortening-Service.git
     cd Task-Tracker
-    git checkout nosql
     ```
 2. Configure application.yml file
 
