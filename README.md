@@ -15,16 +15,21 @@ from the [roadmap.sh](https://roadmap.sh/)
 - **Delete an existing short URL:** Can delete original url by the shortest code.
 - **Get statistics on the short URL:** Can retrieve the access number count by the shortest code.
 
-## 📃 Requirements
+## 🚀 How to Run
 
-**Checkout to some branches and see their README.md files.**
+1. Clone the repository
+    ```bash
+    git clone https://github.com/alivlizadeh1/URL-Shortening-Service.git
+    cd Task-Tracker
+    ```
+2. Checkout to some branches and see their README.md files
 
-```bash
-git checkout nosql
-```
+   ```bash
+   git checkout nosql
+   ```
 
-**or**
+   **or**
 
-```bash
-git checkout relational-sql
-```
+   ```bash
+   git checkout relational-sql
+   ```
