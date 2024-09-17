@@ -43,7 +43,7 @@ from the [roadmap.sh](https://roadmap.sh/)
 
 3. Compile
     ```bash
-    mvn clean package
+    mvn clean compile
     ```
 4. Run
     ```bash
